@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RospotrebnadzorModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="certificatee">
+          <Key>
+            <PropertyRef Name="numb_certificate" />
+          </Key>
+          <Property Name="numb_certificate" Type="int" Nullable="false" />
+          <Property Name="date_issue" Type="date" Nullable="false" />
+          <Property Name="inn_departament_rsp" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="product" Type="int" Nullable="false" />
+          <Property Name="inn_company" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="loginnbussinesmen" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="company">
+          <Key>
+            <PropertyRef Name="inn_company" />
+          </Key>
+          <Property Name="inn_company" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="name_company" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="street_company" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="home_company" Type="int" Nullable="false" />
+          <Property Name="town_company" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone_company" Type="numeric" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="ogrn" Type="numeric" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="bussinessman" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="numb_product" />
+          </Key>
+          <Property Name="numb_product" Type="int" Nullable="false" />
+          <Property Name="product_named" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="code_okpd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="inn_company" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rospotreb_departament">
+          <Key>
+            <PropertyRef Name="inn_departamen" />
+          </Key>
+          <Property Name="inn_departamen" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="name_departament" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="street_departament" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="home_departament" Type="int" Nullable="false" />
+          <Property Name="town_departament" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone_departament" Type="numeric" Precision="11" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="userr">
+          <Key>
+            <PropertyRef Name="loginn" />
+          </Key>
+          <Property Name="loginn" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="passwordd" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="namee" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone_user" Type="numeric" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="businessman" Type="bit" Nullable="false" />
+          <Property Name="passport_series" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="numb_passport" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__certifica__inn_c__412EB0B6">
+          <End Role="company" Type="Self.company" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="inn_company" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="inn_company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__inn_d__3F466844">
+          <End Role="rospotreb_departament" Type="Self.rospotreb_departament" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rospotreb_departament">
+              <PropertyRef Name="inn_departamen" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="inn_departament_rsp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__login__4222D4EF">
+          <End Role="userr" Type="Self.userr" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="loginn" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="loginnbussinesmen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__produ__403A8C7D">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="numb_product" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__company__bussine__4D94879B">
+          <End Role="userr" Type="Self.userr" Multiplicity="1" />
+          <End Role="company" Type="Self.company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="loginn" />
+            </Principal>
+            <Dependent Role="company">
+              <PropertyRef Name="bussinessman" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product__inn_com__4E88ABD4">
+          <End Role="company" Type="Self.company" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="inn_company" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="inn_company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище RospotrebnadzorModelContainer">
+          <EntitySet Name="certificatee" EntityType="Self.certificatee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rospotreb_departament" EntityType="Self.rospotreb_departament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userr" EntityType="Self.userr" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__certifica__inn_c__412EB0B6" Association="Self.FK__certifica__inn_c__412EB0B6">
+            <End Role="company" EntitySet="company" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__inn_d__3F466844" Association="Self.FK__certifica__inn_d__3F466844">
+            <End Role="rospotreb_departament" EntitySet="rospotreb_departament" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__login__4222D4EF" Association="Self.FK__certifica__login__4222D4EF">
+            <End Role="userr" EntitySet="userr" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__produ__403A8C7D" Association="Self.FK__certifica__produ__403A8C7D">
+            <End Role="product" EntitySet="product" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__company__bussine__4D94879B" Association="Self.FK__company__bussine__4D94879B">
+            <End Role="userr" EntitySet="userr" />
+            <End Role="company" EntitySet="company" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product__inn_com__4E88ABD4" Association="Self.FK__product__inn_com__4E88ABD4">
+            <End Role="company" EntitySet="company" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RospotrebnadzorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="certificatee">
+          <Key>
+            <PropertyRef Name="numb_certificate" />
+          </Key>
+          <Property Name="numb_certificate" Type="Int32" Nullable="false" />
+          <Property Name="date_issue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="inn_departament_rsp" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="product" Type="Int32" Nullable="false" />
+          <Property Name="inn_company" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="loginnbussinesmen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="company" Relationship="Self.FK__certifica__inn_c__412EB0B6" FromRole="certificatee" ToRole="company" />
+          <NavigationProperty Name="rospotreb_departament" Relationship="Self.FK__certifica__inn_d__3F466844" FromRole="certificatee" ToRole="rospotreb_departament" />
+          <NavigationProperty Name="userr" Relationship="Self.FK__certifica__login__4222D4EF" FromRole="certificatee" ToRole="userr" />
+          <NavigationProperty Name="product1" Relationship="Self.FK__certifica__produ__403A8C7D" FromRole="certificatee" ToRole="product" />
+        </EntityType>
+        <EntityType Name="company">
+          <Key>
+            <PropertyRef Name="inn_company" />
+          </Key>
+          <Property Name="inn_company" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="name_company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="street_company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="home_company" Type="Int32" Nullable="false" />
+          <Property Name="town_company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone_company" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="ogrn" Type="Decimal" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="bussinessman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="certificatee" Relationship="Self.FK__certifica__inn_c__412EB0B6" FromRole="company" ToRole="certificatee" />
+          <NavigationProperty Name="userr" Relationship="Self.FK__company__bussine__4D94879B" FromRole="company" ToRole="userr" />
+          <NavigationProperty Name="product" Relationship="Self.FK__product__inn_com__4E88ABD4" FromRole="company" ToRole="product" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="numb_product" />
+          </Key>
+          <Property Name="numb_product" Type="Int32" Nullable="false" />
+          <Property Name="product_named" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="code_okpd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="inn_company" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <NavigationProperty Name="certificatee" Relationship="Self.FK__certifica__produ__403A8C7D" FromRole="product" ToRole="certificatee" />
+          <NavigationProperty Name="company" Relationship="Self.FK__product__inn_com__4E88ABD4" FromRole="product" ToRole="company" />
+        </EntityType>
+        <EntityType Name="rospotreb_departament">
+          <Key>
+            <PropertyRef Name="inn_departamen" />
+          </Key>
+          <Property Name="inn_departamen" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="name_departament" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="street_departament" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="home_departament" Type="Int32" Nullable="false" />
+          <Property Name="town_departament" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone_departament" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
+          <NavigationProperty Name="certificatee" Relationship="Self.FK__certifica__inn_d__3F466844" FromRole="rospotreb_departament" ToRole="certificatee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="userr">
+          <Key>
+            <PropertyRef Name="loginn" />
+          </Key>
+          <Property Name="loginn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="passwordd" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="namee" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone_user" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="businessman" Type="Boolean" Nullable="false" />
+          <Property Name="passport_series" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="numb_passport" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <NavigationProperty Name="certificatee" Relationship="Self.FK__certifica__login__4222D4EF" FromRole="userr" ToRole="certificatee" />
+          <NavigationProperty Name="company" Relationship="Self.FK__company__bussine__4D94879B" FromRole="userr" ToRole="company" />
+        </EntityType>
+        <Association Name="FK__certifica__inn_c__412EB0B6">
+          <End Role="company" Type="Self.company" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="inn_company" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="inn_company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__inn_d__3F466844">
+          <End Role="rospotreb_departament" Type="Self.rospotreb_departament" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rospotreb_departament">
+              <PropertyRef Name="inn_departamen" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="inn_departament_rsp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__login__4222D4EF">
+          <End Role="userr" Type="Self.userr" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="loginn" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="loginnbussinesmen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__certifica__produ__403A8C7D">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="certificatee" Type="Self.certificatee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="numb_product" />
+            </Principal>
+            <Dependent Role="certificatee">
+              <PropertyRef Name="product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__company__bussine__4D94879B">
+          <End Role="userr" Type="Self.userr" Multiplicity="1" />
+          <End Role="company" Type="Self.company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="loginn" />
+            </Principal>
+            <Dependent Role="company">
+              <PropertyRef Name="bussinessman" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product__inn_com__4E88ABD4">
+          <End Role="company" Type="Self.company" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="company">
+              <PropertyRef Name="inn_company" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="inn_company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RospotrebnadzorEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="certificatee" EntityType="Self.certificatee" />
+          <EntitySet Name="company" EntityType="Self.company" />
+          <EntitySet Name="product" EntityType="Self.product" />
+          <EntitySet Name="rospotreb_departament" EntityType="Self.rospotreb_departament" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="userr" EntityType="Self.userr" />
+          <AssociationSet Name="FK__certifica__inn_c__412EB0B6" Association="Self.FK__certifica__inn_c__412EB0B6">
+            <End Role="company" EntitySet="company" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__inn_d__3F466844" Association="Self.FK__certifica__inn_d__3F466844">
+            <End Role="rospotreb_departament" EntitySet="rospotreb_departament" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__login__4222D4EF" Association="Self.FK__certifica__login__4222D4EF">
+            <End Role="userr" EntitySet="userr" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__certifica__produ__403A8C7D" Association="Self.FK__certifica__produ__403A8C7D">
+            <End Role="product" EntitySet="product" />
+            <End Role="certificatee" EntitySet="certificatee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__company__bussine__4D94879B" Association="Self.FK__company__bussine__4D94879B">
+            <End Role="userr" EntitySet="userr" />
+            <End Role="company" EntitySet="company" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product__inn_com__4E88ABD4" Association="Self.FK__product__inn_com__4E88ABD4">
+            <End Role="company" EntitySet="company" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RospotrebnadzorModelContainer" CdmEntityContainer="RospotrebnadzorEntities">
+          <EntitySetMapping Name="certificatee">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.certificatee">
+              <MappingFragment StoreEntitySet="certificatee">
+                <ScalarProperty Name="numb_certificate" ColumnName="numb_certificate" />
+                <ScalarProperty Name="date_issue" ColumnName="date_issue" />
+                <ScalarProperty Name="inn_departament_rsp" ColumnName="inn_departament_rsp" />
+                <ScalarProperty Name="product" ColumnName="product" />
+                <ScalarProperty Name="inn_company" ColumnName="inn_company" />
+                <ScalarProperty Name="loginnbussinesmen" ColumnName="loginnbussinesmen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="company">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.company">
+              <MappingFragment StoreEntitySet="company">
+                <ScalarProperty Name="inn_company" ColumnName="inn_company" />
+                <ScalarProperty Name="name_company" ColumnName="name_company" />
+                <ScalarProperty Name="street_company" ColumnName="street_company" />
+                <ScalarProperty Name="home_company" ColumnName="home_company" />
+                <ScalarProperty Name="town_company" ColumnName="town_company" />
+                <ScalarProperty Name="phone_company" ColumnName="phone_company" />
+                <ScalarProperty Name="ogrn" ColumnName="ogrn" />
+                <ScalarProperty Name="bussinessman" ColumnName="bussinessman" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="product">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="numb_product" ColumnName="numb_product" />
+                <ScalarProperty Name="product_named" ColumnName="product_named" />
+                <ScalarProperty Name="code_okpd" ColumnName="code_okpd" />
+                <ScalarProperty Name="inn_company" ColumnName="inn_company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rospotreb_departament">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.rospotreb_departament">
+              <MappingFragment StoreEntitySet="rospotreb_departament">
+                <ScalarProperty Name="inn_departamen" ColumnName="inn_departamen" />
+                <ScalarProperty Name="name_departament" ColumnName="name_departament" />
+                <ScalarProperty Name="street_departament" ColumnName="street_departament" />
+                <ScalarProperty Name="home_departament" ColumnName="home_departament" />
+                <ScalarProperty Name="town_departament" ColumnName="town_departament" />
+                <ScalarProperty Name="phone_departament" ColumnName="phone_departament" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userr">
+            <EntityTypeMapping TypeName="RospotrebnadzorModel.userr">
+              <MappingFragment StoreEntitySet="userr">
+                <ScalarProperty Name="loginn" ColumnName="loginn" />
+                <ScalarProperty Name="passwordd" ColumnName="passwordd" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="namee" ColumnName="namee" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="phone_user" ColumnName="phone_user" />
+                <ScalarProperty Name="businessman" ColumnName="businessman" />
+                <ScalarProperty Name="passport_series" ColumnName="passport_series" />
+                <ScalarProperty Name="numb_passport" ColumnName="numb_passport" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
